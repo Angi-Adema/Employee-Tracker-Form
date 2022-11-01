@@ -11,7 +11,7 @@ CREATE TABLE department (
 
 CREATE TABLE employee_role (
   id INT NOT NULL,
-  employee_title VARCHAR(30) NOT NULL,
+  title VARCHAR(30) NOT NULL,
   salary DECIMAL NOT NULL,
   department_id INT NOT NULL,
   PRIMARY KEY (ID)
