@@ -1,34 +1,9 @@
-//Import and require express, inquirer and mysql2.
-const express = require('express');
+//Import and require inquirer and mysql2.
 const inquirer = require('inquirer');
-const mysql = require('mysql2');
+require('console.table')
+const db = require('./db')
 
-const PORT = process.env.PORT || 3001;
-const app = express();
-
-// Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-//DO I NEED TO HAVE THE PORT ABOVE OR LISTED IN THE CONNECTION FUNCTION BELOW???
-// Connect to database.
-const connection = mysql.createConnection(
-    {
-        host: 'localhost',
-        // MySQL username,
-        user: 'root',
-        // MySQL password
-        password: '',
-        database: 'employee_tracker_db'
-    },
-    console.log(`Connected to the employee_tracker_db database.`)
-);
-
-//Connection error. IS THIS CORRECT? DO I NEED TO DO ANYTHING ELSE WITH THE INQUIRER PROMPT? 
-connection.connect(function(err) {
-    if (err) throw err;
-    cli_prompt();
-});
+startPrompt()
 
 //Initial system question function and switch statement for selection.
 function startPrompt() {
@@ -85,26 +60,29 @@ function startPrompt() {
 
 //Funtion to view departments.
 function viewAllDepartments() {
-
-    if (err) throw err
+    db.getDepartments().then(([depts])=>{
+        console.log('------------------------------------------------------')
+        console.log('viewing departments');
+        console.log('------------------------------------------------------')
+        console.table(depts)
+    }).then(()=> startPrompt())
+   
 };
 
 //Function to view roles.
 function viewAllRoles() {
 
-    if (err) throw err
 };
 
 //Function to view all employees.
 function viewAllEmployees() {
 
-    if (err) throw err
+   
 };
 
 //Function to view all employees by department.
 function viewAllEmployeesByDepartment() {
 
-    if (err) throw err
 };
 
 //Function to add a department.
@@ -114,18 +92,10 @@ function addDepartment() {
             type: 'input',
             name: 'name',
             message: 'What department name would you like to add?'
-        },
-        {
-            type: 'input',
-            name: 'id',
-            message: 'What is the id number for the new department?'
         }
-    ]).then(function(responses) {
+    ]).then(function(response) {
+        db.createDepartment(response).then(()=> startPrompt())
 
-
-        function(err) {
-            if (err) throw err
-        }
     })
 };
 
@@ -145,9 +115,6 @@ function addRole() {
     ]).then(function(responses) {
 
 
-        function(err) {
-            if (err) throw err
-        }
     })
     
 };
@@ -178,15 +145,7 @@ function addEmployee() {
         }
     ]).then(function(responses) {
 
-        {
-            firstName: responses.firstName,
-            lastName: responses.lastName,
-            roleID: 
-            managerID:
-        }
-        function(err) {
-            if (err) throw err
-        }
+       
     })
 };
 
@@ -206,13 +165,7 @@ function updateEmployeeRole() {
         }
     ]).then(function(responses) {
 
-        {
-            lastName: responses.lastName,
-            roleID:
-        }
-        function(err) {
-            if (err) throw err
-        }
+        
     })
 };
 
