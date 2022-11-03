@@ -60,29 +60,42 @@ function startPrompt() {
 
 //Funtion to view departments.
 function viewAllDepartments() {
-    db.getDepartments().then(([depts])=>{
+    db.getDepartments().then(([depts]) => {
         console.log('------------------------------------------------------')
-        console.log('viewing departments');
+        console.log('Viewing Departments');
         console.log('------------------------------------------------------')
         console.table(depts)
     }).then(()=> startPrompt())
-   
 };
 
 //Function to view roles.
 function viewAllRoles() {
-
+    db.getRoles().then(([roles]) => {
+        console.log('------------------------------------------------------')
+        console.log('Viewing Roles');
+        console.log('------------------------------------------------------')
+        console.table(roles)
+    }).then(()=> startPrompt())
 };
 
 //Function to view all employees.
 function viewAllEmployees() {
-
-   
+    db.getAllEmployees().then(([allEmployees]) => {
+        console.log('------------------------------------------------------')
+        console.log('Viewing All Employees');
+        console.log('------------------------------------------------------')
+        console.table(allEmployees)
+    }).then(()=> startPrompt())
 };
 
 //Function to view all employees by department.
 function viewAllEmployeesByDepartment() {
-
+    db.getEmployeesByDepartment().then(([allEmployeesByDepartment]) => {
+        console.log('------------------------------------------------------')
+        console.log('Viewing All Employees By Department');
+        console.log('------------------------------------------------------')
+        console.table(allEmployeesByDepartment)
+    }).then(()=> startPrompt())
 };
 
 //Function to add a department.
