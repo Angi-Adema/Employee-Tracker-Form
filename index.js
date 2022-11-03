@@ -107,8 +107,7 @@ function addDepartment() {
             message: 'What department name would you like to add?'
         }
     ]).then(function(response) {
-        db.createDepartment(response).then(()=> startPrompt())
-
+        db.createDepartment(response).then(() => startPrompt())
     })
 };
 
