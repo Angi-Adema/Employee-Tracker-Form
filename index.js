@@ -1,5 +1,6 @@
 //Import and require inquirer and mysql2.
 const inquirer = require('inquirer');
+const { connection } = require('./db');
 require('console.table')
 const db = require('./db')
 
@@ -90,6 +91,7 @@ function viewAllEmployees() {
 
 //Function to view all employees by department.
 function viewAllEmployeesByDepartment() {
+    db.query("SELECT employees.firstName AS first_name, employees.lastName AS last_name, department.name AS department FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id ORDER BY department_id;");
     db.getEmployeesByDepartment().then(([allEmployeesByDepartment]) => {
         console.log('------------------------------------------------------')
         console.log('Viewing All Employees By Department');
@@ -113,6 +115,7 @@ function addDepartment() {
 
 //Function to add a role.
 function addRole() {
+    db.query("SELECT role.title AS Title, role.salary AS Salary from role LEFT JOIN department.name AS Department FROM department;")
     inquirer.prompt([
         {
             type: 'input',
@@ -123,9 +126,24 @@ function addRole() {
             type: 'input',
             name: 'salary',
             message: 'What is the salary of the role?'
+        },
+        {
+            type: 'list',
+            name: 'department',
+            message: 'What department does this role belong?',
+            choices: selectDepartment()
+
         }
     ]).then(function(responses) {
-
+        let deptId = selectDepartment().indexOf(responses.choice) + 1
+        db.query(
+            "INSERT INTO role SET ?",
+            {
+                title: responses.title,
+                salary: responses.salary,
+                departmentID: deptId
+            }
+        )
 
     })
     
@@ -148,14 +166,25 @@ function addEmployee() {
             type: 'list',
             name: 'role',
             message: "What is the new employee's title?",
-            choices: []
+            choices: selectRole()
         },
         {
             type: 'input',
             name: 'manager',
-            message: "Who is the employee's manager?"
+            message: "Who is the employee's manager?",
+            choices: selectManager()
         }
     ]).then(function(responses) {
+        let roleId = selectRole().indexOf(responses.choice) + 1
+        let managerID = selectManager().indexOf(responses.choice) + 1
+        db.query("INSERT INTO employee SET ?",
+        {
+            firstName: responses.firstName,
+            lastName: responses.lastName,
+            managerID: managerID,
+            roleID: roleId
+        }
+        )
 
        
     })
@@ -163,22 +192,40 @@ function addEmployee() {
 
 //Function to update employee role.
 function updateEmployeeRole() {
+    db.query("SELECT employee.last_name, role.title FROM employee JOIN role ON employee.roleID = role.id;",
+    (err, res) => {
+        if (err) throw err;
+    
     inquirer.prompt([
         {
             type: 'list',  //HOW TO ACCESS EMPLOYEES IN DATABASE?
             name: 'lastName',
+            choices: function () {
+                let lastName = [];
+                for (let i = 0; i < res.length; i++) {
+                    lastName.push(res[i].lastName);
+                }
+                return lastName;
+            },
             message: "What is the employee's last name?",
-            choices: []
+
         },
         {
             type: 'input',
             name: 'title',
-            message: "What is the employee's new title?"
-        }
+            message: "What is the employee's new title?",
+            choices: selectTitle
+        },
     ]).then(function(responses) {
-
+        let roleId = selectRole().indexOf(responses.role) + 1
+        db.query("UPDATE employee SET WHERE ?",
+        {
+            lastName: responses.lastName,
+            roleID: roleID
+        },
+        )
         
     })
-};
+}
 
 
