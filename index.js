@@ -115,10 +115,10 @@ function addDepartment() {
 
 //Function to add a role.
 function addRole() {
-db.getDepartments().then(([depts])=>{
-    const departmentChoices = depts.map((({id, name})=>({
-        name:name,
-        value:id
+db.getDepartments().then(([depts]) => {
+    const departmentChoices = depts.map((({id, name}) => ({
+        name: name,
+        value: id
     })));
 
 
@@ -141,46 +141,50 @@ db.getDepartments().then(([depts])=>{
     
         }
     ]).then(function(responses) {
-      db.createRole(responses).then(() => startPrompt())
+        db.createRole(responses).then(() => startPrompt())
     })
-
-})
-
-
-    
+})  
 };
 
-// //Function to add an employee.
-// function addEmployee() {
-//     inquirer.prompt([
-//         {
-//             type: 'input',
-//             name: 'first_name',
-//             message: 'Please enter the employee first name: '
-//         },
-//         {
-//             type: 'input',
-//             name: 'last_name',
-//             message: 'Please enter the employee last name: '
-//         },
-//         {
-//             type: 'list',
-//             name: 'role_id',
-//             message: "What is the new employee's title?",
-//             choices: selectRole()
-//         },
-//         {
-//             type: 'input',
-//             name: 'manager_id',
-//             message: "Who is the employee's manager?",
-//             choices: selectManager()
-//         }
-//     ]).then(function(responses) {
-//        
+//Function to add an employee.
+function addEmployee() {
+db.getRoles().then(([roles]) => {
+    const selectRole = roles.map((({id, name}) => ({
+        Name: name,
+        value: id
+    })));
+    
 
-       
-//     })
-// };
+
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'first_name',
+            message: 'Please enter the employee first name: '
+        },
+        {
+            type: 'input',
+            name: 'last_name',
+            message: 'Please enter the employee last name: '
+        },
+        {
+            type: 'list',
+            name: 'role_id',
+            message: "What is the new employee's title?",
+            choices: selectRole()
+        },
+        {
+            type: 'input',
+            name: 'manager_id',
+            message: "Who is the employee's manager?",
+            choices: selectManager()
+        }
+    ]).then(function(responses) {
+        db.createEmployee(responses).then(() => startPrompt())
+    })
+})
+}
+
 
 // //Function to update employee role.
 // function updateEmployeeRole() {

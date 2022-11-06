@@ -33,4 +33,4 @@ class Queries{
     }
 }
 
-module.exports = new Queries(connection)
+module.exports = new Queries(connection);
