@@ -28,8 +28,8 @@ class Queries{
     createEmployee(employee){
         return this.connection.promise().query('insert into employee set ?', employee)
     }
-    updateEmployeeRole(employee){
-        return this.connection.promise().query('insert into employee set ?', employee)
+    updateEmployeeRole(roleId, employeeId){
+        return this.connection.promise().query('UPDATE employee SET role_id = ? WHERE id = ?', [roleId, employeeId])
     }
 }
 
