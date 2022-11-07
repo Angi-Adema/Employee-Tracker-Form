@@ -17,7 +17,6 @@ function startPrompt() {
                 'View All Departments',
                 'View All Roles',
                 'View All Employees',
-                'View All Employees by Department',
                 'Add Department',
                 'Add Role',
                 'Add Employee',
@@ -35,9 +34,6 @@ function startPrompt() {
                 break;
             case 'View All Employees':
                 viewAllEmployees();
-                break;
-            case 'View All Employees by Department':
-                viewAllEmployeesByDepartment();
                 break;
             case 'Add Department':
                 addDepartment();
@@ -178,14 +174,11 @@ function addEmployee() {
             ]).then(function (responses) {
                 db.createEmployee(responses).then(() => startPrompt())
             })
-
-
         })
     })
 }
 
-
-// //Function to update employee role.
+//Function to update employee role.
 function updateEmployeeRole() {
     db.getRoles().then(([roles]) => {
         const selectRole = roles.map((({ id, title }) => ({
@@ -200,7 +193,7 @@ function updateEmployeeRole() {
 
             inquirer.prompt([
                 {
-                    type: 'list',  //HOW TO ACCESS EMPLOYEES IN DATABASE?
+                    type: 'list', 
                     name: 'empId',
                     choices: selectEmplyee,
                     message: "Please choose an employee from the list?",
@@ -219,8 +212,6 @@ function updateEmployeeRole() {
             })
         })
     })
-
-
 }
 
 
