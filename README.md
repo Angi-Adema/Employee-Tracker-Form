@@ -29,3 +29,15 @@ WHEN I choose to add an employee
 THEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
 WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
+
+## Technologies
+
+Node.js / Express.js
+Inquirer Package 
+MySQL / MySQL2
+
+## Run Application
+
+1. npm i
+2. node index.js (answer question prompts)
+3. exit
